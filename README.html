@@ -1,1 +1,283 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvet Queen | ڤێلڤێت کوین</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --soft-pink: #fdf2f5;
+            --matte-rose: #f06292;
+            --deep-pink: #ad1457;
+            --text-gray: #4a4a4a;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: linear-gradient(135deg, #fdf2f5, #fce4ec);
+            color: var(--text-gray);
+            padding-bottom: 120px;
+        }
+
+        header { text-align: center; padding: 25px; }
+        header h1 { color: var(--deep-pink); margin: 5px 0; font-size: 2.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        header p { color: var(--matte-rose); font-weight: 500; }
+
+        .grid-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 10px; }
+
+        .category-card {
+            width: 150px;
+            background: white;
+            border-radius: 25px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .category-card:hover { border-color: var(--matte-rose); transform: translateY(-3px); }
+        .category-main-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid var(--soft-pink); }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 25px;
+            padding: 25px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .address-form input, .address-form select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            box-sizing: border-box;
+            background: #fdf2f5;
+            font-size: 0.9rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .cart-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border: 2px solid var(--matte-rose);
+        }
+
+        .order-btn { background: var(--matte-rose); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; cursor: pointer; }
+        .whatsapp-send { background: #25D366; color: white; border: none; padding: 15px; width: 100%; border-radius: 15px; font-weight: bold; font-size: 1rem; margin-top: 15px; cursor: pointer; }
+        .close-btn { width: 100%; background: #f0f0f0; border: none; padding: 10px; margin-top: 10px; border-radius: 12px; cursor: pointer; }
+        .add-btn { background: var(--deep-pink); color: white; border: none; padding: 6px 15px; border-radius: 10px; cursor: pointer; }
+        .remove-btn { color: #ff4d4d; border: none; background: none; cursor: pointer; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Velvet Queen</h1>
+    <p>شازادییا تە، دگەل براندێ مە</p>
+</header>
+
+<div class="grid-container">
+    <div class="category-card" onclick="openNav('مێکاپ',[
+        {n:'سوراو لوکس',p:'18,000 IQD',i:'https://images.unsplash.com/photo-1586495777744-4413f21062fa'},
+        {n:'پۆدەرا پرۆفیشنال',p:'22,000 IQD',i:'https://images.unsplash.com/photo-1596462502278-27bfdc403348'},
+        {n:'ماسکارا بلک',p:'15,000 IQD',i:'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc'}
+    ])">
+        <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796" class="category-main-img">
+        <h3>مێکاپ</h3>
+    </div>
+
+    <div class="category-card" onclick="openNav('گۆڵاڤ',[
+        {n:'Perfume Rose',p:'45,000 IQD',i:'https://images.unsplash.com/photo-1594035910387-fea47794261f'},
+        {n:'Oud Royal',p:'95,000 IQD',i:'https://images.unsplash.com/photo-1615634260167-c8cdede054de'}
+    ])">
+        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f" class="category-main-img">
+        <h3>گۆڵاڤ</h3>
+    </div>
+
+    <div class="category-card" onclick="openNav('دەمژمێر',[
+        {n:'دەمژمێرا زێڕی',p:'75,000 IQD',i:'https://images.unsplash.com/photo-1523275335684-37898b6baf30'},
+        {n:'Classic White',p:'55,000 IQD',i:'https://images.unsplash.com/photo-1518546305927-5a555bb7020d'}
+    ])">
+        <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa" class="category-main-img">
+        <h3>دەمژمێر</h3>
+    </div>
+
+    <div class="category-card" onclick="openNav('پێکهاتە',[
+        {n:'کریمێ رووحی لوکس',p:'28,000 IQD',i:'https://images.unsplash.com/photo-1556228720-195a672e8a03'},
+        {n:'Serum Glow',p:'32,000 IQD',i:'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd'}
+    ])">
+        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03" class="category-main-img">
+        <h3>پێکهاتە</h3>
+    </div>
+</div>
+<div id="navModal" class="modal">
+    <div class="modal-content">
+        <h2 id="navTitle" style="color:var(--deep-pink); text-align:center;"></h2>
+        <div id="linkContainer"></div>
+        <button class="close-btn" onclick="closeAll()">پاشڤەچوون</button>
+    </div>
+</div>
+
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <h3 style="text-align:center; color:var(--deep-pink);">تەواوکردنی داواکاری</h3>
+        <div class="address-form">
+            <input type="text" id="custName" placeholder="ناڤێ تە یێ سیانی">
+            <input type="tel" id="custPhone" placeholder="ژمارا مۆبایلێ">
+            <select id="custCity">
+                <option value="">باژێڕ هەلبژێرە</option>
+                <option value="دهۆک">دهۆک</option>
+                <option value="زاخۆ">زاخۆ</option>
+                <option value="هەولێر">هەولێر</option>
+                <option value="سلێمانی">سلێمانی</option>
+            </select>
+            <input type="text" id="custAddress" placeholder="ناڤنیشان (تاخ/کۆڵان)">
+        </div>
+        <hr style="border: 0.5px solid #eee; margin: 15px 0;">
+        <div id="cartItemsList"></div>
+        <div id="totalDisplay" style="text-align:center; font-weight:bold; margin: 10px; color:var(--deep-pink);"></div>
+        
+        <button class="whatsapp-send" onclick="sendToWhatsapp()">✅ ڕەوانەکرن بۆ واتسئاپ</button>
+        <button class="close-btn" onclick="closeAll()">بەردەوامبە د کڕینێ دا</button>
+    </div>
+</div>
+
+<div class="cart-bar">
+    <div>
+        <div id="cartCount" style="font-weight:bold; color:var(--deep-pink);">سەبەتە خالییە</div>
+        <div id="totalPriceBar" style="font-size:0.8rem;">0 IQD</div>
+    </div>
+    <button class="order-btn" onclick="openCart()">کڕین</button>
+</div>
+
+<script>
+    let cart = [];
+
+    function openNav(title, items) {
+        document.getElementById('navTitle').innerText = title;
+        const container = document.getElementById('linkContainer');
+        container.innerHTML = '';
+        items.forEach(item => {
+            container.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.n} - <b>${item.p}</b></span>
+                    <button class="add-btn" onclick="addToCart('${item.n}', '${item.p}')">+</button>
+                </div>`;
+        });
+        document.getElementById('navModal').style.display = 'flex';
+    }
+
+    function addToCart(name, price) {
+        cart.push({name, price});
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        let total = 0;
+        cart.forEach(item => {
+            total += parseInt(item.price.replace(/[^0-9]/g, ''));
+        });
+        document.getElementById('cartCount').innerText = cart.length + " بەرهەم";
+        document.getElementById('totalPriceBar').innerText = total.toLocaleString() + " IQD";
+    }
+
+    function openCart() {
+        if(cart.length === 0) { alert("تکایە بەرهەمەکێ زێدە بکە"); return; }
+        const list = document.getElementById('cartItemsList');
+        let total = 0;
+        list.innerHTML = "";
+        cart.forEach((item, index) => {
+            total += parseInt(item.price.replace(/[^0-9]/g, ''));
+            list.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <button class="remove-btn" onclick="removeFromCart(${index})">🗑️</button>
+                </div>`;
+        });
+        document.getElementById('totalDisplay').innerText = "کۆی گشتی: " + total.toLocaleString() + " IQD";
+        document.getElementById('cartModal').style.display = 'flex';
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateDisplay();
+        if(cart.length === 0) closeAll(); else openCart();
+    }
+
+    function sendToWhatsapp() {
+        const name = document.getElementById('custName').value.trim();
+        const phone = document.getElementById('custPhone').value.trim();
+        const city = document.getElementById('custCity').value;
+        const address = document.getElementById('custAddress').value.trim();
+
+        if(!name || !phone || !city) { alert("تکایە هەمی خانان پڕ بکە"); return; }
+
+        let itemsText = "";
+        let total = 0;
+        cart.forEach((item, i) => {
+            itemsText += "🔹 " + (i+1) + ". " + item.name + " (" + item.price + ")\n";
+            total += parseInt(item.price.replace(/[^0-9]/g, ''));
+        });
+
+        let message = "✨ *Velvet Queen - داواکاریەکا نووی* ✨\n\n";
+        message += "👤 *ناڤ:* " + name + "\n";
+        message += "📞 *مۆبایل:* " + phone + "\n";
+        message += "📍 *ناڤنیشان:* " + city + " - " + address + "\n\n";
+        message += "📦 *بەرهەمێن داواکری:* \n" + itemsText + "\n";
+        message += "💰 *کۆی گشتی:* " + total.toLocaleString() + " IQD";
+
+        const finalUrl = "https://api.whatsapp.com/send?phone=9647517462456&text=" + encodeURIComponent(message);
+        window.location.href = finalUrl;
+    }
+
+    function closeAll() {
+        document.getElementById('navModal').style.display = 'none';
+        document.getElementById('cartModal').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
 
